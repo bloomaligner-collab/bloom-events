@@ -880,9 +880,8 @@
         const lang = langForCountry(ISO_TO_NAME[country] || '');
         if (lang && lang !== _currentLang) setLanguage(lang);
       }
-      if (ISO_TO_NAME[country] && !_userTouchedCountry) {
-        countryInput.value = ISO_TO_NAME[country];
-      }
+      // Country field is NOT auto-filled from IP — it stays "Tunisia"
+      // (event default) unless the visitor changes it themselves.
     } catch (e) { /* offline / blocked / timeout — keep browser-language pick */ }
   })();
 
