@@ -445,13 +445,14 @@
   <div class="toolbar">
     <input class="search-input" id="searchInput" type="text" placeholder="🔍 Search by name, email, country, specialization…" />
     <select class="event-select" id="eventSelect" title="Choose which event's entries to show. Stats, search, export and the winner draw all follow this selection.">
-      <option value="marrakech" selected>🇲🇦 Marrakech · 13.06.2026</option>
+      <option value="marrakech">🇲🇦 Marrakech · 13.06.2026</option>
       <option value="tunis">🇹🇳 Tunis 2026</option>
       <option value="sfopa">🇫🇷 SFOPA Saint-Raphaël · 18–20.06.2026</option>
       <option value="sedo-palma">🇪🇸 SEDO Palma 2026</option>
       <option value="kazdentexpo">🇰🇿 KazDentExpo 2026</option>
       <option value="adf-bordeaux">🇫🇷 ADF Bordeaux-Lac · 25–26.06.2026</option>
       <option value="dms-lebanon">🇱🇧 DMS Lebanon · 25.06.2026</option>
+      <option value="portemilio" selected>🇱🇧 Portemilio · Kaslik · 11.08.2026</option>
       <option value="ALL">🌍 All events</option>
     </select>
     <button class="btn btn-primary" id="exportBtn">📥 Export to Excel</button>
@@ -537,7 +538,27 @@
 
   // Event filter: every entry carries an `event` value set by its page
   // (marrakech, tunis, sedo-palma, kazdentexpo, ...). 'ALL' shows everything.
-  let currentEvent = 'marrakech';
+  let currentEvent = 'portemilio';
+
+  // Any event slug found in the data but missing from the <select> above is
+  // appended automatically, so a new event page never needs an admin edit.
+  function syncEventOptions(rows) {
+    const sel = document.getElementById('eventSelect');
+    if (!sel) return;
+    const known = new Set(Array.from(sel.options).map(o => o.value));
+    const allOpt = sel.querySelector('option[value="ALL"]');
+    [...new Set(rows.map(r => (r.event || '').trim()).filter(Boolean))]
+      .filter(ev => !known.has(ev))
+      .sort()
+      .forEach(ev => {
+        const opt = document.createElement('option');
+        opt.value = ev;
+        opt.textContent = '• ' + ev;
+        sel.insertBefore(opt, allOpt);
+      });
+    sel.value = currentEvent;
+  }
+
   function getActive() {
     if (currentEvent === 'ALL') return entries;
     return entries.filter(r => (r.event || '') === currentEvent);
@@ -628,6 +649,7 @@
       return;
     }
     entries = data || [];
+    syncEventOptions(entries);
     refreshView();
   }
 
