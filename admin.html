@@ -452,7 +452,8 @@
       <option value="kazdentexpo">🇰🇿 KazDentExpo 2026</option>
       <option value="adf-bordeaux">🇫🇷 ADF Bordeaux-Lac · 25–26.06.2026</option>
       <option value="dms-lebanon">🇱🇧 DMS Lebanon · 25.06.2026</option>
-      <option value="portemilio" selected>🇱🇧 Portemilio · Kaslik · 11.08.2026</option>
+      <option value="portemilio">🇱🇧 Portemilio · Kaslik · 11.08.2026</option>
+      <option value="aligner-summit" selected>🇫🇷 Aligner Summit · Nice · 10–12.09.2026</option>
       <option value="ALL">🌍 All events</option>
     </select>
     <button class="btn btn-primary" id="exportBtn">📥 Export to Excel</button>
@@ -538,7 +539,7 @@
 
   // Event filter: every entry carries an `event` value set by its page
   // (marrakech, tunis, sedo-palma, kazdentexpo, ...). 'ALL' shows everything.
-  let currentEvent = 'portemilio';
+  let currentEvent = 'aligner-summit';
 
   // Any event slug found in the data but missing from the <select> above is
   // appended automatically, so a new event page never needs an admin edit.
